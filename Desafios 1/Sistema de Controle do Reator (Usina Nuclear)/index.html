@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuclear Control Panel - FIAP</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #00ff00; /* Verde Matrix/Terminal */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #111;
+            padding: 30px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        h1 { text-align: center; color: #ff0000; text-transform: uppercase; letter-spacing: 2px; }
+
+        label { display: block; margin-top: 15px; color: #00ff00; }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        .switch-group {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px dashed #ff0000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button:hover { background-color: #990000; }
+
+        #resultado-logica {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px solid #00ff00;
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>☢️ Reactor Control</h1>
+        
+        <label>Temperatura do Núcleo (°C)</label>
+        <input type="number" id="tempInput" placeholder="Ex: 500">
+
+        <label>Pressão Interna (atm)</label>
+        <input type="number" id="presInput" placeholder="Ex: 80">
+
+        <label>Hastes de Resfriamento (%)</label>
+        <input type="number" id="hastesInput" placeholder="0 a 100">
+
+        <div class="switch-group">
+            <span>INTERRUPÇÃO MANUAL</span>
+            <input type="checkbox" id="manualSwitch">
+        </div>
+
+        <button id="btnCheck">Verificar Status</button>
+
+        <div id="resultado-logica">SISTEMA ONLINE</div>
+    </div>
+
+    <script>
+        // 1. Capturar o botão e o campo de saída (monitor)
+        const btn = document.getElementById('btnCheck');
+        // Chamar variável monitor seguindo o padrão da variável btn usando o objeto (resultado-logica) 
+
+        // 2. Evento de Clique
+        btn.addEventListener('click', () => {
+            
+            // 3. Capturar os valores dos inputs
+            const temp = parseFloat(document.getElementById('tempInput').value);
+            // Chamar variável pres (pressão) seguindo o padrão
+            // Chamar variável hastes seguindo o padrão
+            
+            // Capturar o valor do checkbox (booleano)
+            const manual = document.getElementById('manualSwitch').checked;
+
+            let msg = "";
+            let cor = "";
+
+            // Cores para os alunos usarem:
+            // Estável: "#00ff00" (Verde)
+            // Alerta: "#ffff00" (Amarelo)
+            // Crítico: "#ff0000" (Vermelho)
+
+            // --- INÍCIO DA LÓGICA DE PRIORIDADE CRÍTICA ---
+
+            // Validação de entrada: se não for número, dispara erro.
+            if (isNaN(temp) || isNaN(pres) || isNaN(hastes)) {
+                msg = "ERRO: SENSORES ILEGÍVEIS";
+                cor = "#ffff00";
+            } 
+            //Continue a lógica aqui....
+
+            // 4. Exibir os resultados no monitor (DOM)
+            monitor.innerText = msg;
+            monitor.style.color = cor;
+            // Chamar borderColor seguir o padrão acima
+            
+        });
+    </script>
+</body>
+</html>
