@@ -96,44 +96,60 @@
     </div>
 
     <script>
-        // 1. Capturar o botão e o campo de saída (monitor)
-        const btn = document.getElementById('btnCheck');
-        // Chamar variável monitor seguindo o padrão da variável btn usando o objeto (resultado-logica) 
+    const btn = document.getElementById('btnCalcular');
+    const display = document.getElementById('resultado-logica');
 
-        // 2. Evento de Clique
-        btn.addEventListener('click', () => {
-            
-            // 3. Capturar os valores dos inputs
-            const temp = parseFloat(document.getElementById('tempInput').value);
-            // Chamar variável pres (pressão) seguindo o padrão
-            // Chamar variável hastes seguindo o padrão
-            
-            // Capturar o valor do checkbox (booleano)
-            const manual = document.getElementById('manualSwitch').checked;
+    btn.addEventListener('click', () => {
+        const temperatura = parseFloat(document.getElementById('anguloInput').value);
+        const pressao = parseFloat(document.getElementById('escudoInput').value);
 
-            let msg = "";
-            let cor = "";
+        // Simulação de entrada adicional (como não tem no HTML)
+        const hastes = 0; // você pode depois transformar em input
+        const emergencia = false; // pode virar checkbox depois
 
-            // Cores para os alunos usarem:
-            // Estável: "#00ff00" (Verde)
-            // Alerta: "#ffff00" (Amarelo)
-            // Crítico: "#ff0000" (Vermelho)
+        let mensagem = "";
+        let cor = "";
 
-            // --- INÍCIO DA LÓGICA DE PRIORIDADE CRÍTICA ---
+        // --- LÓGICA DO REATOR NUCLEAR ---
 
-            // Validação de entrada: se não for número, dispara erro.
-            if (isNaN(temp) || isNaN(pres) || isNaN(hastes)) {
-                msg = "ERRO: SENSORES ILEGÍVEIS";
-                cor = "#ffff00";
-            } 
-            //Continue a lógica aqui....
+        //"#3fb950"; // Verde
+        //"#f85149"; //Vermelho
+        //"#d29922"; // Amarelo
 
-            // 4. Exibir os resultados no monitor (DOM)
-            monitor.innerText = msg;
-            monitor.style.color = cor;
-            // Chamar borderColor seguir o padrão acima
-            
-        });
-    </script>
+        // Validação
+        if (isNaN(temperatura) || isNaN(pressao)) {
+            mensagem = "❌ Insira os dados do reator!";
+            cor = "#f85149";
+        }
+
+        // PRIORIDADE 0 - DESLIGAMENTO TOTAL
+        else if (emergencia || pressao > 100) {
+            mensagem = "☢️ DESLIGAMENTO IMEDIATO: Sistema em estado crítico!";
+            cor = "#f85149";
+        }
+
+        // PRIORIDADE 1 - RISCO DE FUSÃO
+        else if (temperatura > 700 && hastes === 0) {
+            mensagem = "🔥 PERIGO: Risco de fusão do núcleo!";
+            cor = "#f85149";
+        }
+
+        // PRIORIDADE 2 - ALERTA
+        else if (temperatura >= 400 && temperatura <= 700) {
+            mensagem = "⚠️ ALERTA: Temperatura elevada. Monitoramento necessário.";
+            cor = "#d29922";
+        }
+
+        // PRIORIDADE 3 - ESTÁVEL
+        else if (temperatura < 400 && pressao <= 100) {
+            mensagem = "✅ SISTEMA ESTÁVEL: Operação normal.";
+            cor = "#3fb950";
+        }
+
+        display.innerText = mensagem;
+        display.style.color = cor;
+        display.style.borderColor = cor;
+    });
+</script>
 </body>
 </html>
