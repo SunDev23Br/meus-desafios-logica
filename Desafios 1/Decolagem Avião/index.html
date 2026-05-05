@@ -114,15 +114,15 @@
 
     <script>
         const btn = document.getElementById('btnVerificar');
-        //Chamar váriavel campoTexto seguir padrão de da variavel btn usando objeto (resultado-logica)
+    const campoTexto = document.getElementById('resultado-logica');
 
         btn.addEventListener('click', () => {
             // Entradas de dados
             const combustivel = parseFloat(document.getElementById('combustivel').value);
-            //criar variável peso seguir padrão de da variavel combustivel
-             //criar variável vento seguir padrão de variavel combustivel
+        const peso = parseFloat(document.getElementById('peso').value);
+        const vento = parseFloat(document.getElementById('vento').value);
             const flapsAjustados = document.getElementById('flaps').checked;
-            //criar Variável autorizacaoTorre vento seguir padrão de variavel flapsAjustados
+        const autorizacaoTorre = document.getElementById('torre').checked;
 
             let mensagem = "";
             let cor = "";
@@ -134,27 +134,47 @@
 
             // --- LÓGICA DE SEGURANÇA (Regras de Negócio) ---
 
-            //Exemplo lógico da váriavel
+        // 1. Torre (prioridade máxima)
             if (!autorizacaoTorre) {
                 mensagem = "DECOLAGEM ABORTADA: Aguardando liberação da Torre.";
                 decolagemOk = false;
-                cor = "#f85149"; // Rosa/Vermelho
+            cor = "#f85149";
+        } 
+        // 2. Combustível
+        else if (combustivel <= 25) {
+            mensagem = "DECOLAGEM ABORTADA: Combustível abaixo do mínimo (25%).";
+            decolagemOk = false;
+            cor = "#f85149";
+        } 
+        // 3. Flaps
+        else if (!flapsAjustados) {
+            mensagem = "DECOLAGEM ABORTADA: Flaps não estão ajustados.";
+            decolagemOk = false;
+            cor = "#f85149";
             } 
-            //Continue Aqui a lógica de bloqueio do voo......
-
-
+        // 4. Peso + vento (regra combinada)
+        else if (peso > 50 && vento > 40) {
+            mensagem = "DECOLAGEM ABORTADA: Vento acima do permitido para aeronave pesada.";
+            decolagemOk = false;
+            cor = "#f85149";
+        } 
+        else if (peso <= 50 && vento > 60) {
+            mensagem = "DECOLAGEM ABORTADA: Vento acima do permitido.";
+            decolagemOk = false;
+            cor = "#f85149";
+        }
 
            // --- RESULTADO FINAL ---
             if (decolagemOk) {
-                //Coloque aqui o resultado final
+            mensagem = "DECOLAGEM AUTORIZADA: Todos os sistemas estão operacionais.";
+            cor = "#3fb950";
             } else {
-                //Saida padrão
+            // já definido acima
             }
-           
 
             campoTexto.innerText = mensagem;
             campoTexto.style.color = cor;
-            //Chamar borderColor seguir padrão display.style.color = cor;
+        campoTexto.style.borderColor = cor;
         });
     </script>
     
