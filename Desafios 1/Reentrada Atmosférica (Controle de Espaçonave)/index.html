@@ -87,36 +87,61 @@
 
         <div id="resultado-logica">Aguardando telemetria...</div>
     </div>
+<script>
+    const btn = document.getElementById('btnCalcular');
+    const display = document.getElementById('resultado-logica');
 
-    <script>
-        const btn = document.getElementById('btnCalcular');
-        //Chamar váriavel display seguir padrão de da variavel btn
+    btn.addEventListener('click', () => {
+        const temperatura = parseFloat(document.getElementById('anguloInput').value);
+        const pressao = parseFloat(document.getElementById('escudoInput').value);
 
-        //Liga o seu código HTML à ação do usuário
-        btn.addEventListener('click', () => {
-            const angulo = parseFloat(document.getElementById('anguloInput').value);
-            //Chamar váriavel escudo seguir padrão de da variavel angulo objeto (resultado-logica)
-            
-            let mensagem = "";
-            let cor = "";
-            // --- LÓGICA DE REENTRADA ---
+        // Simulação de entrada adicional (como não tem no HTML)
+        const hastes = 0; // você pode depois transformar em input
+        const emergencia = false; // pode virar checkbox depois
 
-            //"#3fb950"; // Verde
-            //"#f85149"; //Vermelho
-            //"#d29922"; // Amarelo
+        let mensagem = "";
+        let cor = "";
 
-            // Validação de entrada: se não for número, dispara erro.
-            if (isNaN(angulo) || isNaN(escudo)) {
-                mensagem = "❌ Insira os dados da telemetria!";
-                cor = "#f85149";
-            } 
-            //Segue Continuidade da Lógica....
+        // --- LÓGICA DO REATOR NUCLEAR ---
 
-            display.innerText = mensagem;
-            display.style.color = cor;
-            //Chamar borderColor seguir padrão display.style.color = cor;
-        });
-    </script>
-    
+        //"#3fb950"; // Verde
+        //"#f85149"; //Vermelho
+        //"#d29922"; // Amarelo
+
+        // Validação
+        if (isNaN(temperatura) || isNaN(pressao)) {
+            mensagem = "❌ Insira os dados do reator!";
+            cor = "#f85149";
+        }
+
+        // PRIORIDADE 0 - DESLIGAMENTO TOTAL
+        else if (emergencia || pressao > 100) {
+            mensagem = "☢️ DESLIGAMENTO IMEDIATO: Sistema em estado crítico!";
+            cor = "#f85149";
+        }
+
+        // PRIORIDADE 1 - RISCO DE FUSÃO
+        else if (temperatura > 700 && hastes === 0) {
+            mensagem = "🔥 PERIGO: Risco de fusão do núcleo!";
+            cor = "#f85149";
+        }
+
+        // PRIORIDADE 2 - ALERTA
+        else if (temperatura >= 400 && temperatura <= 700) {
+            mensagem = "⚠️ ALERTA: Temperatura elevada. Monitoramento necessário.";
+            cor = "#d29922";
+        }
+
+        // PRIORIDADE 3 - ESTÁVEL
+        else if (temperatura < 400 && pressao <= 100) {
+            mensagem = "✅ SISTEMA ESTÁVEL: Operação normal.";
+            cor = "#3fb950";
+        }
+
+        display.innerText = mensagem;
+        display.style.color = cor;
+        display.style.borderColor = cor;
+    });
+</script>
 </body>
 </html>
