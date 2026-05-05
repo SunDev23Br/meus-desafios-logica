@@ -112,32 +112,32 @@
         <div id="resultado-logica">Aguardando dados...</div>
     </div>
 
-    <script>
-        const btn = document.getElementById('btnVerificar');
+   <script>
+    const btn = document.getElementById('btnVerificar');
     const campoTexto = document.getElementById('resultado-logica');
 
-        btn.addEventListener('click', () => {
-            // Entradas de dados
-            const combustivel = parseFloat(document.getElementById('combustivel').value);
+    btn.addEventListener('click', () => {
+        // Entradas de dados
+        const combustivel = parseFloat(document.getElementById('combustivel').value);
         const peso = parseFloat(document.getElementById('peso').value);
         const vento = parseFloat(document.getElementById('vento').value);
-            const flapsAjustados = document.getElementById('flaps').checked;
+        const flapsAjustados = document.getElementById('flaps').checked;
         const autorizacaoTorre = document.getElementById('torre').checked;
 
-            let mensagem = "";
-            let cor = "";
-            let decolagemOk = true;
+        let mensagem = "";
+        let cor = "";
+        let decolagemOk = true;
 
-            //"#3fb950"; // Verde
-            //"#f85149"; //Vermelho
-            //"#d29922"; // Amarelo
+        //"#3fb950"; // Verde
+        //"#f85149"; //Vermelho
+        //"#d29922"; // Amarelo
 
-            // --- LÓGICA DE SEGURANÇA (Regras de Negócio) ---
+        // --- LÓGICA DE SEGURANÇA (Regras de Negócio) ---
 
         // 1. Torre (prioridade máxima)
-            if (!autorizacaoTorre) {
-                mensagem = "DECOLAGEM ABORTADA: Aguardando liberação da Torre.";
-                decolagemOk = false;
+        if (!autorizacaoTorre) {
+            mensagem = "DECOLAGEM ABORTADA: Aguardando liberação da Torre.";
+            decolagemOk = false;
             cor = "#f85149";
         } 
         // 2. Combustível
@@ -151,7 +151,7 @@
             mensagem = "DECOLAGEM ABORTADA: Flaps não estão ajustados.";
             decolagemOk = false;
             cor = "#f85149";
-            } 
+        } 
         // 4. Peso + vento (regra combinada)
         else if (peso > 50 && vento > 40) {
             mensagem = "DECOLAGEM ABORTADA: Vento acima do permitido para aeronave pesada.";
@@ -164,19 +164,19 @@
             cor = "#f85149";
         }
 
-           // --- RESULTADO FINAL ---
-            if (decolagemOk) {
+        // --- RESULTADO FINAL ---
+        if (decolagemOk) {
             mensagem = "DECOLAGEM AUTORIZADA: Todos os sistemas estão operacionais.";
             cor = "#3fb950";
-            } else {
+        } else {
             // já definido acima
-            }
+        }
 
-            campoTexto.innerText = mensagem;
-            campoTexto.style.color = cor;
+        campoTexto.innerText = mensagem;
+        campoTexto.style.color = cor;
         campoTexto.style.borderColor = cor;
-        });
-    </script>
+    });
+</script>
     
 </body>
 </html>
