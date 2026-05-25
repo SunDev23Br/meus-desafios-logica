@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>FIAP Music - Modelagem de Dados</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #121212;
+            color: white;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .instrucoes {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #ed145b;
+            margin-bottom: 30px;
+        }
+
+        .busca-container {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        #inputBusca {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ed145b;
+            background: #2d2d2d;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .coluna {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ed145b;
+        }
+
+        h1, h2 {
+            color: #ed145b;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #2d2d2d;
+            border-radius: 6px;
+            border-left: 4px solid #ed145b;
+        }
+
+        .id-badge {
+            background: #ed145b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-right: 8px;
+        }
+
+        .info-relacao {
+            color: #aaa;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 5px;
+        }
+
+        code {
+            background: #333;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="instrucoes">
+        <h1>🎸 Atividade 2: Modelagem e Relacionamento</h1>
+
+        <p>
+            <strong>1. O que vamos aprender?</strong>
+            Vamos sair de listas simples e entrar na
+            <strong>Modelagem de Dados</strong>.
+            O conceito principal é o
+            <em>Relacionamento entre Objetos</em>.
+        </p>
+
+        <p>
+            <strong>2. Estrutura do Código:</strong><br>
+
+            • <strong>Tabela Pai (Cantores):</strong>
+            Cada objeto tem um <code>id</code> (único como um CPF).<br>
+
+            • <strong>Tabela Filha (Músicas):</strong>
+            Elas usam o <code>cantorId</code> para se conectar ao pai.
+        </p>
+
+        <p>
+            <strong>3. Sua Missão:</strong><br>
+
+            • <strong>Passo 1:</strong>
+            No código abaixo, adicione +5 cantores (IDs únicos)
+            OBS: Não Esqueça da "," no item anterior ao incluir os novos.<br>
+
+            • <strong>Passo 2:</strong>
+            Adicione +10 músicas (Atenção: o <code>cantorId</code> deve existir!)
+            OBS: Não Esqueça da "," no item anterior ao incluir os novos.<br>
+
+            • <strong>Passo 3:</strong>
+            Responda completando às perguntas nos comentários do script.<br>
+
+            • <strong>Passo 4:</strong>
+            Teste a pesquisa após incluir novos itens.
+        </p>
+    </div>
+
+    <div class="busca-container">
+        <input
+            type="text"
+            id="inputBusca"
+            placeholder="Pesquise o CANTOR ou GÊNERO..."
+            onkeyup="filtrar()"
+        >
+    </div>
+
+    <div class="grid">
+
+        <div class="coluna">
+            <h2>🎙️ Cantores Encontrados</h2>
+            <ul id="listaCantores"></ul>
+        </div>
+
+        <div class="coluna">
+            <h2>🎵 Músicas Relacionadas</h2>
+            <ul id="listaMusicas"></ul>
+        </div>
+
+    </div>
+
+    <script>
+
+        // --- 1. BASE DE DADOS (Onde a mágica começa) ---
+
+        // PERGUNTA:
+        // Por que o 'id' do cantor não pode se repetir?
+
+        // RESPOSTA:
+        // Porque o ID é único e serve para identificar corretamente cada cantor.
+
+        const cantores = [
+
+            { id: 1, nome: "Legião Urbana", genero: "Rock" },
+            { id: 11, nome: "MC Kevin o Chris", genero: "Funk" },
+            { id: 21, nome: "Thiaguinho", genero: "Pagode" },
+            { id: 31, nome: "Jorge & Mateus", genero: "Sertanejo" },
+
+            // +5 cantores adicionados
+
+            { id: 41, nome: "Pitty", genero: "Rock" },
+            { id: 51, nome: "Anitta", genero: "Pop" },
+            { id: 61, nome: "Matuê", genero: "Trap" },
+            { id: 71, nome: "Luan Santana", genero: "Sertanejo" },
+            { id: 81, nome: "Ferrugem", genero: "Pagode" }
+
+        ];
+
+
+
+        // PERGUNTA:
+        // Se você criar uma música da "Pitty" (id: 41),
+        // qual valor o 'cantorId' dela deve ter?
+
+        // RESPOSTA:
+        // Deve ter o valor 41.
+
+        const musicas = [
+
+            {
+                id: 101,
+                titulo: "Tempo Perdido",
+                cantorId: 1,
+                trecho: "Todos os dias antes de dormir..."
+            },
+
+            {
+                id: 102,
+                titulo: "Tipo Gin",
+                cantorId: 11,
+                trecho: "Ela é do tipo que não brinca em serviço..."
+            },
+
+            {
+                id: 103,
+                titulo: "Melhor Eu Ir",
+                cantorId: 21,
+                trecho: "Melhor eu ir, tchau..."
+            },
+
+            {
+                id: 104,
+                titulo: "Logo Eu",
+                cantorId: 31,
+                trecho: "Logo eu que nem pensava..."
+            },
+
+            {
+                id: 105,
+                titulo: "Falta Você",
+                cantorId: 21,
+                trecho: "Falta você, o seu cheiro no meu edredom..."
+            },
+
+            // +10 músicas adicionadas
+
+            {
+                id: 106,
+                titulo: "Máscara",
+                cantorId: 41,
+                trecho: "Diga quem você é..."
+            },
+
+            {
+                id: 107,
+                titulo: "Me Adora",
+                cantorId: 41,
+                trecho: "Mesmo que você não queira..."
+            },
+
+            {
+                id: 108,
+                titulo: "Envolver",
+                cantorId: 51,
+                trecho: "Hoje eu vou te envolver..."
+            },
+
+            {
+                id: 109,
+                titulo: "Show das Poderosas",
+                cantorId: 51,
+                trecho: "Prepara que agora é a hora..."
+            },
+
+            {
+                id: 110,
+                titulo: "Máquina do Tempo",
+                cantorId: 61,
+                trecho: "Vivendo no futuro..."
+            },
+
+            {
+                id: 111,
+                titulo: "Kenny G",
+                cantorId: 61,
+                trecho: "Ela quer minha atenção..."
+            },
+
+            {
+                id: 112,
+                titulo: "Morena",
+                cantorId: 71,
+                trecho: "Morena, deixa eu te falar..."
+            },
+
+            {
+                id: 113,
+                titulo: "Meteoro",
+                cantorId: 71,
+                trecho: "Te dei o sol..."
+            },
+
+            {
+                id: 114,
+                titulo: "Pirata e Tesouro",
+                cantorId: 81,
+                trecho: "Você é meu tesouro..."
+            },
+
+            {
+                id: 115,
+                titulo: "Pra Você Acreditar",
+                cantorId: 81,
+                trecho: "Pra você acreditar..."
+            }
+
+        ];
+
+
+
+        // --- 2. MOTOR DO SISTEMA (A lógica da Pesquisa Relacional) ---
+
+        function renderizar(termoBusca = "") {
+
+            const listC = document.getElementById('listaCantores');
+            const listM = document.getElementById('listaMusicas');
+
+
+
+            // PERGUNTA:
+            // Para que serve o .toLowerCase() nesta linha?
+
+            // RESPOSTA:
+            // Serve para transformar tudo em letras minúsculas
+            // e permitir uma busca sem diferenciar maiúsculas/minúsculas.
+
+            const termo = termoBusca.toLowerCase();
+
+
+
+            // PERGUNTA:
+            // Por que limpamos o innerHTML antes de começar a listar?
+
+            // RESPOSTA:
+            // Para evitar que os resultados antigos fiquem duplicados na tela.
+
+            listC.innerHTML = "";
+            listM.innerHTML = "";
+
+
+
+            // FILTRANDO CANTORES
+
+            const cantoresFiltrados = cantores.filter(c =>
+
+                c.nome.toLowerCase().includes(termo) ||
+
+                c.genero.toLowerCase().includes(termo)
+
+            );
+
+
+
+            // EXIBINDO CANTORES
+
+            cantoresFiltrados.forEach(c => {
+
+                listC.innerHTML += `
+                    <li>
+                        <span class="id-badge">
+                            ID: ${c.id}
+                        </span>
+
+                        <strong>${c.nome}</strong>
+                    </li>
+                `;
+
+            });
+
+
+
+            // LÓGICA DE CRUZAMENTO (O "Match")
+
+            // A. MAPEAMENTO:
+            // Criamos uma lista somente com os IDs válidos.
+
+            const idsValidos = cantoresFiltrados.map(c => c.id);
+
+
+
+            // B. FILTRO DE RELAÇÃO
+
+            // PERGUNTA:
+            // Como o código "sabe" que a música deve sumir
+            // se o cantor dela não foi encontrado?
+
+            // RESPOSTA:
+            // Porque ele verifica se o cantorId da música
+            // existe dentro da lista idsValidos.
+
+            const musicasFiltradas = musicas.filter(m =>
+                idsValidos.includes(m.cantorId)
+            );
+
+
+
+            // EXIBINDO MÚSICAS
+
+            musicasFiltradas.forEach(m => {
+
+
+
+                // PERGUNTA:
+                // O que o .find abaixo está tentando localizar para a música?
+
+                // RESPOSTA:
+                // Está tentando encontrar o cantor correspondente
+                // daquela música usando o cantorId.
+
+                const artista = cantores.find(c => c.id === m.cantorId);
+
+
+
+                listM.innerHTML += `
+
+                    <li>
+
+                        <strong>${m.titulo}</strong>
+
+                        <span class="info-relacao">
+                            🎙️ Cantor: ${artista.nome}
+                        </span>
+
+                        <em style="font-size: 0.8rem; color: #888;">
+                            "${m.trecho}"
+                        </em>
+
+                    </li>
+
+                `;
+
+            });
+
+        }
+
+
+
+        // PERGUNTA:
+        // Esta função é ativada por qual ação do usuário?
+
+        // RESPOSTA:
+        // Quando o usuário digita algo no campo de pesquisa.
+
+        function filtrar() {
+
+            renderizar(
+                document.getElementById('inputBusca').value
+            );
+
+        }
+
+
+
+        // PERGUNTA FINAL:
+        // O que acontece se carregarmos a página
+        // sem chamar esta função abaixo?
+
+        // RESPOSTA:
+        // Nada será exibido na tela até que o usuário faça uma pesquisa.
+
+        renderizar();
+
+    </script>
+
+</body>
+</html>
