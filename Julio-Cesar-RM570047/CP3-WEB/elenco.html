@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Elenco Revelado - Avaliação Prática</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; padding: 40px; text-align: center; }
+        .instrucoes { background: #1a2332; border: 2px solid #3b82f6; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto 30px auto; text-align: left; }
+        .instrucoes h2 { color: #60a5fa; margin-top: 0; }
+        .container { background: #1e1e1e; padding: 30px; display: inline-block; border-radius: 12px; border: 1px solid #e50914; min-width: 400px; text-align: left; margin-bottom: 30px; }
+        h1 { color: #2ecc71; text-align: center; margin-top: 0; } /* Verde para celebrar o acerto */
+        ul { list-style: none; padding: 0; }
+        li { padding: 12px; margin: 8px 0; background: #2d2d2d; border-radius: 6px; font-size: 1.1rem; display: flex; justify-content: space-between; }
+        .destaque { background: #2ecc71; color: black; font-weight: bold; border-left: 5px solid #fff; }
+        .badge-personagem { color: #ffcc00; font-style: italic; }
+        .destaque .badge-personagem { color: #000; font-weight: 900; }
+        a { color: #e50914; display: block; text-align: center; margin-top: 25px; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="instrucoes">
+        <h2>📝 Instruções da Avaliação Prática - Parte 2</h2>
+        <p>1. Analise o fluxo de transição de dados entre a primeira página e esta tela de sucesso.</p>
+        <p>2. Responda detalhadamente às perguntas de engenharia de software listadas nos comentários do <code>&lt;script&gt;</code>.</p>
+        <p>3. Use suas próprias palavras para preencher cada espaço <strong>"EXPLIQUE O QUE ENTENDEU:"</strong>.</p>
+    </div>
+
+    <div class="container">
+        <h1>🎉 Resposta Correta!</h1>
+        <p><strong>Série:</strong> <span id="nomeSerie">...</span></p>
+        <p><strong>Você desvendou:</strong> <span id="atorValidado" style="color: #2ecc71; font-weight: bold;">...</span></p>
+        
+        <h3>👥 Guia de Elenco e Personagens:</h3>
+        <ul id="listaCompleta">
+            </ul>
+
+        <a href="index.html">← Jogar Novamente</a>
+    </div>
+
+    <script>
+        /* ===================================================================
+           [NÍVEL 5] - PERSISTÊNCIA E RECUPERAÇÃO DE SESSÃO (LOCALSTORAGE)
+           =================================================================== */
+        function carregarElenco() {
+            
+            const dadosTexto = localStorage.getItem('quizSerieSalva');
+            /* ❓ PERGUNTA 13: Para que serve o método "localStorage.getItem()"? O que acontece se o usuário fechar o navegador e abrir esta página diretamente no dia seguinte?
+               ✍️ EXPLIQUE O QUE ENTENDEU:
+               __________________________________________________________________________________________
+            */
+
+            
+            if (!dadosTexto) {
+                alert("Nenhum dado de jogo encontrado!");
+                window.location.href = "index.html";
+                return;
+            }
+            /* ❓ PERGUNTA 14: Por que essa verificação de segurança "if (!dadosTexto)" é considerada uma boa prática em páginas que dependem de dados externos ou de sessões anteriores?
+               ✍️ EXPLIQUE O QUE ENTENDEU:
+               __________________________________________________________________________________________
+            */
+
+            
+            const dadosObjeto = JSON.parse(dadosTexto);
+            /* ❓ PERGUNTA 15: Qual é o papel do método "JSON.parse()" nesta linha? O que mudou na constante "dadosObjeto" em relação à constante "dadosTexto"?
+               ✍️ EXPLIQUE O QUE ENTENDEU:
+               __________________________________________________________________________________________
+            */
+
+            document.getElementById('nomeSerie').innerText = dadosObjeto.serieNome;
+            document.getElementById('atorValidado').innerText = `${dadosObjeto.atorNome}`;
+
+            const listaUl = document.getElementById('listaCompleta');
+            listaUl.innerHTML = "";
+
+
+            /* ===================================================================
+               [NÍVEL 6] - ITERAÇÃO AVANÇADA E MANIPULAÇÃO DINÂMICA DE CLASSES
+               =================================================================== */
+            
+            Object.entries(dadosObjeto.elencoCompleto).forEach(([ator, personagem]) => {
+                /* ❓ PERGUNTA 16: O que o método "Object.entries()" faz com o objeto de dados recebido? Explique a utilidade da sintaxe "([ator, personagem])" dentro do forEach.
+                   ✍️ EXPLIQUE O QUE ENTENDEU:
+                   __________________________________________________________________________________________
+                */
+
+                const itemLista = document.createElement('li');
+                
+                
+                const personagemFormatado = personagem.replace(/(^\w{1})|(\s+\w{1})/g, l => l.toUpperCase());
+                /* ❓ PERGUNTA 17: O método ".replace()" está usando uma Expressão Regular (RegEx). O que esse código específico faz visualmente com o texto do personagem (ex: de "jon snow" para "Jon Snow")?
+                   ✍️ EXPLIQUE O QUE ENTENDEU:
+                   __________________________________________________________________________________________
+                */
+
+                itemLista.innerHTML = `<span>👤 ${ator}</span> <span class="badge-personagem">🎬 ${personagemFormatado}</span>`;
+
+                
+                if (ator === dadosObjeto.atorNome) {
+                    itemLista.classList.add('destaque');
+                }
+                /* ❓ PERGUNTA 18: Explique a lógica por trás da comparação "if (ator === dadosObjeto.atorNome)". O que o método ".classList.add('destaque')" provoca visualmente na página do usuário?
+                   ✍️ EXPLIQUE O QUE ENTENDEU:
+                   __________________________________________________________________________________________
+                */
+
+                listaUl.appendChild(itemLista);
+            });
+        }
+
+        carregarElenco();
+    </script>
+</body>
+</html>

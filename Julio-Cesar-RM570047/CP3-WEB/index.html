@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>FIAP Streaming - Avaliação Prática</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; padding: 40px; text-align: center; }
+        .instrucoes { background: #1a2332; border: 2px solid #3b82f6; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto 30px auto; text-align: left; }
+        .instrucoes h2 { color: #60a5fa; margin-top: 0; }
+        form { background: #1e1e1e; padding: 30px; display: inline-block; border-radius: 8px; border: 2px solid #e50914; min-width: 350px; text-align: left; margin-bottom: 30px; }
+        input, select, button { display: block; width: 100%; margin: 15px 0; padding: 12px; box-sizing: border-box; border-radius: 6px; font-size: 1rem; }
+        input, select { background: #333; color: white; border: 1px solid #555; }
+        label { font-weight: bold; color: #aaa; }
+        button { background: #e50914; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 25px; }
+        button:hover { background: #b80710; }
+    </style>
+</head>
+<body>
+
+    <div class="instrucoes">
+        <h2>📝 Instruções da Avaliação Prática</h2>
+        <p>1. Analise atentamente o comportamento lógico do código JavaScript contido neste arquivo.</p>
+        <p>2. Responda detalhadamente a cada uma das questões comentadas dentro da tag <code>&lt;script&gt;</code>, preenchendo o espaço <strong>"EXPLIQUE O QUE ENTENDEU:"</strong>.</p>
+        <p>3. <strong>Desafio de Código:</strong> Complete a estrutura de dados <code>dadosSeries</code> incluindo as informações de mais <strong>2 seriados à sua escolha</strong>. Cada nova série deve conter o nome completo e um elenco de, no mínimo, <strong>5 atores reais e seus respectivos personagens</strong>.</p>
+        <p>4. ⚠️ <strong>Atenção à Sintaxe:</strong> Ao criar e preencher os novos blocos dentro do objeto, certifique-se de utilizar a <strong>vírgula (,)</strong> corretamente para separar cada série anterior e não quebrar a execução do programa.</p>
+        <p>5. <strong>Inclua o nome do seriado no item &lt;select&gt;.</strong> Crie um novo <code>&lt;option&gt;</code> e insira o nome do seriado com seus respectivos relacionamentos.</p>
+        <p>6. <strong>Validação:</strong> Após completar a estrutura de dados, execute o programa para garantir que todas as séries e seus respectivos elencos estejam corretamente definidos.</p>
+    </div>
+
+    <h1>🎬 Desafio dos Personagens - FIAP Series 🍿</h1>
+    <p>Selecione a série, escolha o ator e tente adivinhar o nome do personagem dele!</p>
+
+    <form id="formCadastro">
+        <label for="seriado">1. Escolha o Seriado:</label>
+        <select id="seriado" onchange="atualizarAtores()">
+            <option value disabled selected hidden>Escolha aqui seu seriado preferido</option>
+            <option value="got">Game of Thrones 👑</option>
+            <option value="twd">The Walking Dead 🧟</option>
+            <option value="bb">Breaking Bad ⚗️</option>
+        </select>
+
+        <label for="selectAtor">2. Selecione o Ator/Atriz:</label>
+        <select id="selectAtor">
+            <option value>Aguardando seleção da série...</option>
+        </select>
+
+        <label for="nomePersonagem">3. Quem é o Personagem dele(a)?</label>
+        <input type="text" id="nomePersonagem" placeholder="Ex: Jon Snow, Walter White..." required>
+
+        <button type="submit">Validar Resposta 🚀</button>
+    </form>
+
+    <script>
+        
+    /* ===================================================================
+       [NÍVEL 1] - ANÁLISE DE ESTRUTURA DE DADOS
+       =================================================================== */
+    const dadosSeries = {
+        got: {
+            nomeCompleto: "Game of Thrones 👑",
+            elenco: { 
+                "Kit Harington": "jon snow", 
+                "Emilia Clarke": "daenerys targaryen",
+                "Peter Dinklage": "tyrion lannister",
+                "Lena Headey": "cersei lannister",
+                "Maisie Williams": "arya stark"
+            }
+        },
+        twd: {
+            nomeCompleto: "The Walking Dead 🧟",
+            elenco: {
+                "Andrew Lincoln": "rick grimes",
+                "Norman Reedus": "daryl dixon",
+                "Melissa McBride": "carol peletier",
+                "Lauren Cohan": "maggie greene",
+                "Jeffrey Dean Morgan": "negan"
+            }
+        },
+        bb: {
+            nomeCompleto: "Breaking Bad ⚗️",
+            elenco: { 
+                "Bryan Cranston": "walter white", 
+                "Aaron Paul": "jesse pinkman",
+                "Anna Gunn": "skyler white",
+                "Bob Odenkirk": "saul goodman",
+                "Giancarlo Esposito": "gus fring"
+            }
+        }
+        /* 🚀 DESAFIO DO ALUNO (SÉRIE 1): 
+           Substitua o valor de 'nomeCompleto' por um seriado de sua preferência.
+           No objeto 'elenco', adicione no mínimo 5 atores/atrizes (Nome Real como Chave) 
+           e seus respectivos personagens (em letras minúsculas como Valor). */
+       
+        /* 🚀 DESAFIO DO ALUNO (SÉRIE 2): 
+           Substitua o valor de 'nomeCompleto' por outro seriado de sua preferência.
+           No objeto 'elenco', adicione no mínimo 5 atores/atrizes (Nome Real como Chave) 
+           e seus respectivos personagens (em letras minúsculas como Valor). */
+  
+    };
+    /* ❓ PERGUNTA 1: O que é a estrutura "dadosSeries"? Como acessamos o nome do personagem do "Aaron Paul" usando essa estrutura?
+       ✍️ EXPLIQUE O QUE ENTENDEU:
+       __________________________________________________________________________________________
+    */
+
+
+    /* ===================================================================
+       [NÍVEL 2] - MANIPULAÇÃO DINÂMICA DO DOM (ONCHANGE)
+       =================================================================== */
+    function atualizarAtores() {
+        /* ❓ PERGUNTA 2: O que é uma "function" no JavaScript e qual evento do HTML dispara a execução da função "atualizarAtores()"?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+
+        const serieSelecionada = document.getElementById('seriado').value;
+        const selectAtor = document.getElementById('selectAtor');
+        /* ❓ PERGUNTA 3: Explique a diferença entre o que está sendo guardado na constante "serieSelecionada" (usando .value) e na constante "selectAtor" (sem .value).
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+        
+        if (!serieSelecionada) {
+            selectAtor.innerHTML = '<option value="">Aguardando seleção da série...</option>';
+            return;
+        }
+        /* ❓ PERGUNTA 4: Para que serve a verificação "if (!serieSelecionada)" e o comando "return" logo abaixo dela?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+
+        const listaAtores = Object.keys(dadosSeries[serieSelecionada].elenco);
+        /* ❓ PERGUNTA 5: O que o método "Object.keys()" faz nesta linha específica? O que será guardado na constante "listaAtores"?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+
+        selectAtor.innerHTML = "";
+        listaAtores.forEach(ator => {
+            selectAtor.innerHTML += `<option value="${ator}">${ator}</option>`;
+        });
+        /* ❓ PERGUNTA 6: Explique a função do método ".forEach()" e do operador "+=" no bloco acima. O que acontece visualmente na tela?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+    }
+
+
+    /* ===================================================================
+       [NÍVEL 3] - INTERCEPTAÇÃO DE EVENTOS E TRATAMENTO DE STRINGS
+       =================================================================== */
+    const form = document.getElementById('formCadastro');
+ 
+    form.addEventListener('submit', function(event) {
+        /* ❓ PERGUNTA 7: O que faz o método "addEventListener('submit', ...)" e por que ele foi atrelado à constante "form"?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+
+        event.preventDefault(); 
+        /* ❓ PERGUNTA 8: Qual é a função do comando "event.preventDefault()" quando o botão de envio é clicado?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+     
+        const serieChave = document.getElementById('seriado').value;
+        const atorEscolhido = document.getElementById('selectAtor').value;
+        const personagemDigitado = document.getElementById('nomePersonagem').value.trim().toLowerCase();
+        /* ❓ PERGUNTA 9: Por que utilizamos os métodos ".trim()" e ".toLowerCase()" ao capturar a resposta digitada pelo usuário?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+    
+        if (!serieChave || !atorEscolhido) {
+            alert("⚠️ Por favor, selecione uma série e um ator válidos antes de responder!");
+            return;
+        }
+
+        const personagemCorreto = dadosSeries[serieChave].elenco[atorEscolhido];
+     
+        if (!personagemCorreto.includes(personagemDigitado) || personagemDigitado.length < 3) {
+            alert(`❌ ERRADO! Esse não é o personagem de ${atorEscolhido}. Tente novamente!`);
+            return; 
+        }
+        /* ❓ PERGUNTA 10: Como o operador "||" (OU) e o método ".includes()" atuam juntos para decidir se o aluno errou o palpite?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+    
+        const dadosParaEnviar = {
+            serieNome: dadosSeries[serieChave].nomeCompleto,
+            atorNome: atorEscolhido,
+            personagemNome: personagemDigitado
+        };
+         
+        localStorage.setItem('quizSerieSalva', JSON.stringify(dadosParaEnviar));
+        /* ❓ PERGUNTA 11: Por que precisamos usar "JSON.stringify()" antes de guardar o objeto "dadosParaEnviar" no LocalStorage?
+           ✍️ EXPLIQUE O QUE ENTENDEU:
+           __________________________________________________________________________________________
+        */
+
+        window.location.href = "elenco.html";
+    }); 
+
+
+    /* ===================================================================
+       [NÍVEL 4] - INICIALIZAÇÃO GLOBAL
+       =================================================================== */
+    atualizarAtores();
+    /* ❓ PERGUNTA 12: Por que essa chamada de função "atualizarAtores()" é executada solta, no final do script, fora de qualquer evento?
+       ✍️ EXPLIQUE O QUE ENTENDEU:
+       __________________________________________________________________________________________
+    */
+
+    </script>
+</body>
+</html>
